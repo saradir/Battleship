@@ -1,0 +1,29 @@
+#content{
+    display: flex;
+}
+
+.board {
+    display: grid; 
+    grid-template-columns: repeat(10, 1fr); 
+    grid-template-rows: repeat(10, 1fr);
+    width: 100px;
+    height: 100px;
+    margin: 40px;
+}
+
+.cell{
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    border: 1px  solid #ccc;
+    background-color: aqua;
+    width: 15px;
+    height: 15px;
+    min-height: 10px;
+    justify-content: center;
+    align-items: center;
+    text-align: center; 
+    box-sizing: border-box;
+    font-size: 100%;
+    margin-bottom: -2px;
+}
+
