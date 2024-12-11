@@ -44,6 +44,7 @@ function newGame(){
 
 function switchPlayers() {
   [currentPlayer, otherPlayer] = [otherPlayer, currentPlayer];
+  displayBoards();
 }
 
 
