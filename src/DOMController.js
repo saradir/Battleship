@@ -1,19 +1,22 @@
 const { Ship } = require("./Ship");
 
 
-function displayBoard(board, playerID){
-    const newBoard = document.querySelector(`#${playerID}`);
-
-
-
+function displayBoard(player, mode = "ship-revealed"){
+    const newBoard = document.querySelector(`#${player.id}`);
+    const board = player.getBoard();
+    if(mode === "ship-revealed"){
+        renderShips(player);
+    }
     
     for(let i = 0; i < 10; i++){
         for(let j=0; j < 10; j++){
-            const cell = document.querySelector(`#${playerID} > .cell[data-coordinates="${i},${j}"]`);
-            if(board[i][j] instanceof Ship){
-                cell.textContent = 'S';
-            }else{
-                cell.textContent = board[i][j];
+            const cell = document.querySelector(`#${player.id} > .cell[data-coordinates="${i},${j}"]`);
+            if(board[i][j] === player.board.HIT_MARKER){
+                console.log('hit');
+                cell.dataset.status = 'HIT';
+            }else if(board[i][j] === player.board.MISS_MARKER){
+                cell.toggleAttribute = 'MISSED';
+                cell.textContent = 'X';
             }
         }
     }
