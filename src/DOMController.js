@@ -1,7 +1,7 @@
 const { Ship } = require("./Ship");
 
 
-function displayBoard(player, mode = "ship-revealed"){
+function displayBoard(player, mode = "all"){
     const newBoard = document.querySelector(`.board#${player.id}`);
     newBoard.innerHTML = '';
     const board = player.getBoard();
@@ -22,9 +22,14 @@ function displayBoard(player, mode = "ship-revealed"){
             }
         }
     }
-    if(mode === "ship-revealed"){
-        renderShips(player);
-    }
+   
+        renderShips(player, mode);
+}
+
+function displayMessage(message){
+    const messageWindow = document.querySelector('#message-box');
+    messageWindow.textContent = message;
+    
 }
 
 // Create html for boards
@@ -41,7 +46,7 @@ function initializeBoards(){
     })
 }
 
-function renderShips(player){
+function renderShips(player, mode){
     const head = '■';
     const body = '■';
     const tail = '■';
@@ -51,6 +56,13 @@ function renderShips(player){
         for(let i =0; i < ship.length; i++){
             const [x,y] = coords[i];
             const cell = document.querySelector(`#${player.id} > .cell[data-coordinates="${x},${y}"]`)
+            if(mode === "revealed-only" && cell.dataset.status != 'HIT'){
+                continue;
+            }
+            if(ship.isSunk()){
+                cell.dataset.health = 'sunk';
+            }
+            
             if(ship.orientation === "vertical"){
                     if(i === 0){
                         cell.textContent = head;
@@ -74,4 +86,4 @@ function renderShips(player){
     }
 }
 
-module.exports = {displayBoard, renderShips, initializeBoards };
+module.exports = {displayBoard, displayMessage, initializeBoards };

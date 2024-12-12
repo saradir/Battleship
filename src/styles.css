@@ -47,6 +47,10 @@
     box-shadow: 0 0 10px #ff3333;
 }
 
+.cell[data-health='sunk']{
+    color: black;
+}
+
 .player-name{
     font-weight: 300;
     font-size: 20px;

@@ -5,7 +5,7 @@ class Gameboard{
         
         this.DIMENSION = 10; 
         this.MAX_SHIP_SIZE = 5;
-        this.SHIP_MARKER = 'S';
+        this.SUNK_MARKER = 'S';
         this.HIT_MARKER = 'H';
         this.MISS_MARKER = 'X';
         this.board = this.initiateBoard();
@@ -75,8 +75,9 @@ class Gameboard{
     }
 
     receiveAttack([x,y]){
-
+        
         this.validateCoord([x,y], 'target');
+        
         if(this.board[x][y] instanceof Ship){
             this.board[x][y].hit();
             this.board[x][y] = this.HIT_MARKER;
