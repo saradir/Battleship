@@ -7,8 +7,45 @@
 </head>
 <body>
     <div id="content">
+        <div id="welcome-screen" class="screen">
+            <h1>Welcome Captain!</h1>
+            <form id="gameOptionsForm">
+                <fieldset id="game-mode">
+                    <legend>Select Game Mode</legend>
+                    <input type="radio" id="twoPlayer" name="mode" value="2" checked>
+                    <label for="twoPlayer">2-Player</label>
+                    <input type="radio" id="onePlayer" name="mode" value="1">
+                    <label for="onePlayer">Single Player</label>
+                </fieldset>
 
-        <div id="boards-container">
+                <fieldset id="playerNames">
+                    <div class="playerName">
+                        <label for="playerOneName">Player's one name:</label>
+                        <input type="text" id="playerOneName" name="playerOneName" placeholder="PlayerOne" value="PlayerOne">
+                    </div>
+                    <div class="playerName" id="secondPlayerName">
+                        <label for="playerTwoName">Player-2's name:</label>
+                        <input type="text" id="playerTwoName" name="playerTwoName" placeholder="PlayerTwo" value="PlayerTwo">
+                    </div>
+
+                </fieldset>
+
+                <button type="submit">Start Game</button>
+            </form>
+
+        </div>
+
+        <div id="placement-screen" class="screen">
+            <p id="placementTitle"></p>
+            <div id="buttons-container">
+                <button id="rearrange">Re-arrange</button>
+                <button id="confirm">Looks Good!</button>
+            </div>
+            <div class="board">
+
+            </div>
+        </div>
+        <div id="game-screen" class="screen">
             <div class="board-container">
                 <p class="player-name" id="one">test</p>
                 <div class ="board" id="one">
@@ -21,11 +58,12 @@
                 
                </div>
             </div>
+            <div id="message-box">
+                Sample
+            </div>
         </div>
 
-        <div id="message-box">
-            Sample
-        </div>
+ 
     </div>
 
 

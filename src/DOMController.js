@@ -2,11 +2,12 @@ const { Ship } = require("./Ship");
 
 
 function displayBoard(player, mode = "all"){
-    const newBoard = document.querySelector(`.board#${player.id}`);
-    newBoard.innerHTML = '';
-    const board = player.getBoard();
- 
+    const boardContainer = document.querySelector(`.board#${player.id}`);
+    boardContainer.innerHTML = '';
+    const board = player.board;
     
+    renderGrid(board, boardContainer);
+    /*
     for(let i = 0; i < 10; i++){
         for(let j=0; j < 10; j++){
             const cell = document.createElement('div');
@@ -22,8 +23,8 @@ function displayBoard(player, mode = "all"){
             }
         }
     }
-   
-        renderShips(player, mode);
+   */
+    renderShips(player, mode);
 }
 
 function displayMessage(message){
@@ -33,7 +34,7 @@ function displayMessage(message){
 }
 
 // Create html for boards
-function initializeBoards(){
+/*function initializeBoards(){
     document.querySelectorAll('.board').forEach((board) =>{
         for(let i = 0; i < 10; i++){
             for(let j=0; j < 10; j++){
@@ -44,7 +45,7 @@ function initializeBoards(){
             }
         }
     })
-}
+}*/
 
 function renderShips(player, mode){
     const head = '■';
@@ -86,4 +87,38 @@ function renderShips(player, mode){
     }
 }
 
-module.exports = {displayBoard, displayMessage, initializeBoards };
+// renders a game grid given an array representation of the board and a html container
+function renderGrid(board, container){
+    for(let i = 0; i < 10; i++){
+        for(let j=0; j < 10; j++){
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.dataset.coordinates = `${i},${j}`;
+            container.appendChild(cell);
+            
+            if(board.board[i][j] === board.HIT_MARKER){
+                cell.dataset.status = 'HIT';
+            }else if(board.board[i][j] === board.MISS_MARKER){
+                cell.toggleAttribute = 'MISSED';
+                cell.textContent = 'X';
+            }
+        }
+    }
+}
+
+function renderPlacementScreen(player){
+    const screen = document.querySelector('#placement-screen');
+    const title = document.querySelector('#placementTitle');
+    title.textContent = `${player.name}, set your ships in position!`;
+    const boardContainer = document.querySelector('#placement-screen > .board');
+    boardContainer.innerHTML = '';
+    boardContainer.id = player.id;
+    
+    screen.appendChild(boardContainer);
+
+
+    renderGrid(player.board, boardContainer);
+    renderShips(player, 'all');
+}
+
+module.exports = {renderPlacementScreen, displayBoard, displayMessage,  };

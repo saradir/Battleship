@@ -12,6 +12,11 @@ class Gameboard{
         this.ships = [];
     }
 
+    clearBoard(){
+        this.board = this.initiateBoard();
+        this.ships = [];
+    }
+
     initiateBoard(){
         return Array.from({ length: this.DIMENSION }, () => Array(this.DIMENSION).fill(' ')); 
     }
@@ -31,7 +36,6 @@ class Gameboard{
             coordinates.push(coordinate);   
         }
         // all tests passed
-        console.log(coordinates);
         this.ships.push([ship, coordinates]);
         
         for(let [x, y] of coordinates){
@@ -99,6 +103,9 @@ class Gameboard{
 
     // generates a random board;
     generateRandom(arr = [5, 4, 3, 3, 2]){
+
+        this.clearBoard();
+        
         for(let length of arr){
             
             while(true){

@@ -5,10 +5,7 @@
     justify-content: center;    
 }
 
-#boards-container{
-    display: flex;
-    flex-direction: row;
-}
+
 
 .board-container{
     display: flex;
@@ -16,7 +13,7 @@
     justify-content: center;
     align-items: center;
 }
-.board {
+.board{
     display: grid; 
     grid-template-columns: repeat(10, 1fr); 
     grid-template-rows: repeat(10, 1fr);
@@ -67,3 +64,57 @@
     border: 4px solid rgb(27, 27, 23);
     background-color: #004d00;
 }
+
+.screen{
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+}
+#welcome-screen{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#placement-screen{
+    display: none;
+    flex-direction: column;
+}
+#game-screen{
+
+    display: none;
+    flex-direction: row;
+}
+
+form{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+label{
+    box-sizing: border-box;
+    width: 200px;
+}
+
+.playerName {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between the label and input */
+    margin-bottom: 5px; /* Space between each row */
+  }
+
+input {
+    flex: 1; /* Make inputs expand to fill available space */
+  }
+
+fieldset {
+    flex: 1; /* Makes each fieldset take equal width */
+    padding: 16px;
+    border: 1px solid #ccc;
+    min-width: 300px; /* Ensures a reasonable minimum width */
+    margin: 0;
+  }
+
