@@ -12,46 +12,6 @@ let currentPlayer;
 let otherPlayer;
 let isProcessing = false; // flag to prevent click events from firing again before an event is done being handled.
 
-document.querySelectorAll('.board-container > .board').forEach((board) => board.addEventListener('click', (e)=>{
-    if(isProcessing) return;
-    isProcessing = true;
-    if(e.target.classList.contains('cell')){
-        if(e.currentTarget.id === `${currentPlayer.id}`){
-            displayMessage('Aim at them!');
-            isProcessing = false;
-            return;
-        }
-        const [x,y] = e.target.dataset.coordinates.split(',')
-        try {
-            const hit =otherPlayer.board.receiveAttack([x,y]);
-            if(hit){
-                displayMessage('hit');
-
-            }else{
-                displayMessage('Missed!');
-            }
-        } catch (error) {
-            displayMessage(error);
-            isProcessing = false;
-            return;
-        }
-        displayBoards();
-
-        // check for win condition
-        if(otherPlayer.board.isOver()){
-            displayMessage(`Game is over! ${currentPlayer} won.`);
-            alert('Shall we play again?');
-            newGame();
-        }
-        setTimeout(() =>{
-            switchPlayers();
-            displayBoards();
-            isProcessing = false;
-        }, 1000);
-        
-    }
-    
-}))
 
 
 newGame();
@@ -64,15 +24,14 @@ function newGame(){
     playerTwo = new Player('two','PlayerTwo');
     currentPlayer = playerOne;
     otherPlayer = playerTwo;
-   // initializeBoards();
 }
 
 
 
 function switchPlayers() {
   [currentPlayer, otherPlayer] = [otherPlayer, currentPlayer];
+  console.log('blackout');
   showBlackout(`${otherPlayer.name} finished his turn, it is now ${currentPlayer.name}'s turn! \n (CLICK anywhere to continue)`);
-  displayMessage(`${currentPlayer.name} it is now your turn!`);
 }
 
 
@@ -114,11 +73,11 @@ function launchPlacementScreen(){
     renderPlacementScreen(playerOne);
 
     document.querySelector('button#confirm').addEventListener('click', (e) =>{
+        
         if(gameMode === '2' && currentPlayer === playerOne){
-            currentPlayer = playerTwo;
+            switchPlayers();
             renderPlacementScreen(playerTwo);
         }else{
-            currentPlayer = playerOne;
             launchGameScreen();
         }
     });
@@ -130,10 +89,57 @@ function launchPlacementScreen(){
 }
 
 function launchGameScreen(){
+    currentPlayer = playerOne;
+    otherPlayer = playerTwo;
+    displayMessage(`${currentPlayer.name} it is now your turn!`);
     toggleScreen('game-screen');
     displayBoards();
     document.querySelector('.player-name#one').textContent = playerOne.name;
     document.querySelector('.player-name#two').textContent = playerTwo.name;
+
+
+    document.querySelectorAll('.board-container > .board').forEach((board) => board.addEventListener('click', (e)=>{
+        if(isProcessing) return;
+        isProcessing = true;
+        if(e.target.classList.contains('cell')){
+            if(e.currentTarget.id === `${currentPlayer.id}`){
+                displayMessage('Aim at them!');
+                isProcessing = false;
+                return;
+            }
+            const [x,y] = e.target.dataset.coordinates.split(',')
+            try {
+                const hit =otherPlayer.board.receiveAttack([x,y]);
+                if(hit){
+                    displayMessage('hit');
+    
+                }else{
+                    displayMessage('Missed!');
+                }
+            } catch (error) {
+                displayMessage(error);
+                isProcessing = false;
+                return;
+            }
+            displayBoards();
+    
+            // check for win condition
+            if(otherPlayer.board.isOver()){
+                displayMessage(`Game is over! ${currentPlayer} won.`);
+                alert('Shall we play again?');
+                newGame();
+            }
+            setTimeout(() =>{
+                switchPlayers();
+                displayMessage(`${currentPlayer.name} it is now your turn!`);
+                displayBoards();
+                isProcessing = false;
+            }, 1000);
+            
+        }
+        
+    }))
+    
 }
 
 launchWelcomeScreen();

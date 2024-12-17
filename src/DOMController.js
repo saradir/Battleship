@@ -100,7 +100,7 @@ function showBlackout(message){
     blackout.querySelector('#blackout-message').textContent = message;
     blackout.classList.remove('hidden');
 
-    document.addEventListener('click', hideBlackout, { once: true });
+    blackout.addEventListener('click', hideBlackout, { once: true });
 }
 
 function hideBlackout(){
