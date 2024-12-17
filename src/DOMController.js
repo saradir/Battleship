@@ -8,7 +8,7 @@ function displayBoard(player, mode = "all"){
     const board = player.board;
     
     renderGrid(board, boardContainer);
-    renderShips(player, mode);
+    renderShips(player, mode, 'game-screen');
 }
 
 function displayMessage(message){
@@ -19,16 +19,18 @@ function displayMessage(message){
 
 
 
-function renderShips(player, mode){
+function renderShips(player, mode, screen){
+    console.log(player.id);
     const head = '■';
     const body = '■';
     const tail = '■';
     const ships = player.getShips();
+    const container = document.querySelector(`#${screen}`);
     for(let [ship, coords] of ships){
         
         for(let i =0; i < ship.length; i++){
             const [x,y] = coords[i];
-            const cell = document.querySelector(`#${player.id} > .cell[data-coordinates="${x},${y}"]`)
+            const cell = container.querySelector(`#${player.id} > .cell[data-coordinates="${x},${y}"]`)
             if(mode === "revealed-only" && cell.dataset.status != 'HIT'){
                 continue;
             }
@@ -90,7 +92,7 @@ function renderPlacementScreen(player){
 
 
     renderGrid(player.board, boardContainer);
-    renderShips(player, 'all');
+    renderShips(player, 'all', 'placement-screen');
 }
 // blacks out screen when players change
 function showBlackout(message){

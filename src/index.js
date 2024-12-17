@@ -71,7 +71,7 @@ function newGame(){
 
 function switchPlayers() {
   [currentPlayer, otherPlayer] = [otherPlayer, currentPlayer];
-  showBlackout(`${otherPlayer.name} finished his turm, it is now ${currentPlayer.name}'s turn! \n (CLICK anywhere to continue)`);
+  showBlackout(`${otherPlayer.name} finished his turn, it is now ${currentPlayer.name}'s turn! \n (CLICK anywhere to continue)`);
   displayMessage(`${currentPlayer.name} it is now your turn!`);
 }
 
