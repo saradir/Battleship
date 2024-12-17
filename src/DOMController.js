@@ -8,23 +8,6 @@ function displayBoard(player, mode = "all"){
     const board = player.board;
     
     renderGrid(board, boardContainer);
-    /*
-    for(let i = 0; i < 10; i++){
-        for(let j=0; j < 10; j++){
-            const cell = document.createElement('div');
-            cell.className = 'cell';
-            cell.dataset.coordinates = `${i},${j}`;
-            newBoard.appendChild(cell);
-            
-            if(board[i][j] === player.board.HIT_MARKER){
-                cell.dataset.status = 'HIT';
-            }else if(board[i][j] === player.board.MISS_MARKER){
-                cell.toggleAttribute = 'MISSED';
-                cell.textContent = 'X';
-            }
-        }
-    }
-   */
     renderShips(player, mode);
 }
 
@@ -34,19 +17,7 @@ function displayMessage(message){
     
 }
 
-// Create html for boards
-/*function initializeBoards(){
-    document.querySelectorAll('.board').forEach((board) =>{
-        for(let i = 0; i < 10; i++){
-            for(let j=0; j < 10; j++){
-                const cell = document.createElement('div');
-                cell.className = 'cell';
-                cell.dataset.coordinates = `${i},${j}`;
-                board.appendChild(cell);
-            }
-        }
-    })
-}*/
+
 
 function renderShips(player, mode){
     const head = '■';
@@ -121,5 +92,19 @@ function renderPlacementScreen(player){
     renderGrid(player.board, boardContainer);
     renderShips(player, 'all');
 }
+// blacks out screen when players change
+function showBlackout(message){
+    const blackout = document.querySelector('#blackout-overlay');
+    blackout.querySelector('#blackout-message').textContent = message;
+    blackout.classList.remove('hidden');
 
-module.exports = {renderPlacementScreen, displayBoard, displayMessage,  };
+    document.addEventListener('click', hideBlackout, { once: true });
+}
+
+function hideBlackout(){
+    const blackout = document.querySelector('#blackout-overlay');
+    blackout.classList.add('hidden');
+}
+
+
+module.exports = {renderPlacementScreen, displayBoard, displayMessage, showBlackout };

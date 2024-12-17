@@ -123,3 +123,22 @@ fieldset {
     margin: 0;
   }
 
+  #blackout-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2rem;
+    z-index: 9999;
+  }
+  
+  #blackout-overlay.hidden {
+    display: none;
+  }
+  

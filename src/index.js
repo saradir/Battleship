@@ -3,7 +3,7 @@ import './styles.css';
 const {Player} = require('./Player');
 const {Gameboard} = require('./Gameboard');
 const {Ship} = require('./Ship');
-const { displayMessage, initializeBoards, displayBoard, renderPlacementScreen} = require('./DOMController');
+const { displayMessage, initializeBoards, displayBoard, renderPlacementScreen, showBlackout} = require('./DOMController');
 
 let gameMode = 1; // 1 for single player, 2 for 2-player
 let playerOne;
@@ -45,6 +45,7 @@ document.querySelectorAll('.board-container > .board').forEach((board) => board.
         }
         setTimeout(() =>{
             switchPlayers();
+            displayBoards();
             isProcessing = false;
         }, 1000);
         
@@ -70,8 +71,8 @@ function newGame(){
 
 function switchPlayers() {
   [currentPlayer, otherPlayer] = [otherPlayer, currentPlayer];
+  showBlackout(`${otherPlayer.name} finished his turm, it is now ${currentPlayer.name}'s turn! \n (CLICK anywhere to continue)`);
   displayMessage(`${currentPlayer.name} it is now your turn!`);
-  displayBoards();
 }
 
 
