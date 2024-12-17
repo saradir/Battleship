@@ -105,7 +105,7 @@ class Gameboard{
     generateRandom(arr = [5, 4, 3, 3, 2]){
 
         this.clearBoard();
-        
+
         for(let length of arr){
             
             while(true){

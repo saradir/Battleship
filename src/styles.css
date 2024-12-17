@@ -85,7 +85,12 @@
 #game-screen{
 
     display: none;
-    flex-direction: row;
+    flex-direction: column;
+}
+
+#boards-container{
+    display: flex;
+    
 }
 
 form{

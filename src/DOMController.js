@@ -2,7 +2,8 @@ const { Ship } = require("./Ship");
 
 
 function displayBoard(player, mode = "all"){
-    const boardContainer = document.querySelector(`.board#${player.id}`);
+    const boardContainer = document.querySelector(`#game-screen .board#${player.id}`);
+    console.log(player.id);
     boardContainer.innerHTML = '';
     const board = player.board;
     

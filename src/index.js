@@ -104,12 +104,12 @@ function launchWelcomeScreen(){
         gameMode = document.querySelector('input[name="mode"]:checked').value;
         playerOne.name = e.target.elements["playerOneName"].value;
         playerTwo.name = e.target.elements["playerTwoName"].value;
-        toggleScreen('placement-screen');
         launchPlacementScreen();
     })
 }
 
 function launchPlacementScreen(){
+    toggleScreen('placement-screen');
     renderPlacementScreen(playerOne);
 
     document.querySelector('button#confirm').addEventListener('click', (e) =>{
@@ -117,7 +117,8 @@ function launchPlacementScreen(){
             currentPlayer = playerTwo;
             renderPlacementScreen(playerTwo);
         }else{
-            toggleScreen('game-screen');
+            currentPlayer = playerOne;
+            launchGameScreen();
         }
     });
 
@@ -125,6 +126,13 @@ function launchPlacementScreen(){
         currentPlayer.board.generateRandom();
         renderPlacementScreen(currentPlayer);
     });
+}
+
+function launchGameScreen(){
+    toggleScreen('game-screen');
+    displayBoards();
+    document.querySelector('.player-name#one').textContent = playerOne.name;
+    document.querySelector('.player-name#two').textContent = playerTwo.name;
 }
 
 launchWelcomeScreen();
