@@ -79,17 +79,27 @@ class Gameboard{
     }
 
     receiveAttack([x,y]){
-        
-        this.validateCoord([x,y], 'target');
+        let result;
+        try {
+            this.validateCoord([x,y], 'target');
+        } catch (error) {
+           return {status:'error', reason: error.message}; 
+        }
+
         
         if(this.board[x][y] instanceof Ship){
             this.board[x][y].hit();
+            if(this.board[x][y].isSunk()){
+                result = {status: 'sunk'};
+            }else{
+                 result = {status:'hit'};
+            }
             this.board[x][y] = this.HIT_MARKER;
-            return true;
         }else{
             this.board[x][y] = this.MISS_MARKER;
-            return false;
+            result = {status:'miss'};
         }
+        return result;
     }
 
     isOver(){
