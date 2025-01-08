@@ -3,7 +3,6 @@ const { Ship } = require("./Ship");
 
 function displayBoard(player, mode = "all"){
     const boardContainer = document.querySelector(`#game-screen .board#${player.id}`);
-    console.log(player.id);
     boardContainer.innerHTML = '';
     const board = player.board;
     
@@ -20,7 +19,6 @@ function displayMessage(message){
 
 
 function renderShips(player, mode, screen){
-    console.log(player.id);
     const head = '■';
     const body = '■';
     const tail = '■';

@@ -1,6 +1,7 @@
-console.log('starting');
+
 import './styles.css';
 const {Player} = require('./Player');
+const {computerPlayer} = require('./computerPlayer');
 const {Gameboard} = require('./Gameboard');
 const {Ship} = require('./Ship');
 const { displayMessage, initializeBoards, displayBoard, renderPlacementScreen, showBlackout} = require('./DOMController');
@@ -13,15 +14,15 @@ let otherPlayer;
 let isProcessing = false; // flag to prevent click events from firing again before an event is done being handled.
 
 
-
-newGame();
-playerOne.board.generateRandom();
-playerTwo.board.generateRandom();
-
-
-function newGame(){
+function setPlayers(mode){
     playerOne = new Player('one','PlayerOne');
-    playerTwo = new Player('two','PlayerTwo');
+    if(mode === '2'){
+        playerTwo = new Player('two','PlayerTwo');
+    }else if(mode === '1'){
+        playerTwo = new computerPlayer();
+    }
+    playerOne.board.generateRandom();
+    playerTwo.board.generateRandom();
     currentPlayer = playerOne;
     otherPlayer = playerTwo;
 }
@@ -30,14 +31,22 @@ function newGame(){
 
 function switchPlayers() {
   [currentPlayer, otherPlayer] = [otherPlayer, currentPlayer];
-  console.log('blackout');
-  showBlackout(`${otherPlayer.name} finished his turn, it is now ${currentPlayer.name}'s turn! \n (CLICK anywhere to continue)`);
+  if(gameMode === '2'){
+    console.log('blackout');
+    showBlackout(`${otherPlayer.name} finished his turn, it is now ${currentPlayer.name}'s turn! \n (CLICK anywhere to continue)`);
+  }
 }
 
 
 function displayBoards(){
-    displayBoard(currentPlayer, "all");
-    displayBoard(otherPlayer, "revealed-only");
+    if(gameMode === "2"){
+        displayBoard(currentPlayer, "all");
+        displayBoard(otherPlayer, "revealed-only");
+    }
+    else if(gameMode ==="1"){
+        displayBoard(playerOne, "all");
+        displayBoard(playerTwo, "revealed-only");
+    }
 }
 
 function toggleScreen(screen){
@@ -62,6 +71,7 @@ function launchWelcomeScreen(){
     document.querySelector('#gameOptionsForm').addEventListener('submit', (e) =>{
         e.preventDefault();
         gameMode = document.querySelector('input[name="mode"]:checked').value;
+        setPlayers(gameMode);
         playerOne.name = e.target.elements["playerOneName"].value;
         playerTwo.name = e.target.elements["playerTwoName"].value;
         launchPlacementScreen();
@@ -91,6 +101,8 @@ function launchPlacementScreen(){
 function launchGameScreen(){
     currentPlayer = playerOne;
     otherPlayer = playerTwo;
+ 
+
     displayMessage(`${currentPlayer.name} it is now your turn!`);
     toggleScreen('game-screen');
     displayBoards();
@@ -109,13 +121,8 @@ function launchGameScreen(){
             }
             const [x,y] = e.target.dataset.coordinates.split(',')
             try {
-                const hit =otherPlayer.board.receiveAttack([x,y]);
-                if(hit){
-                    displayMessage('hit');
-    
-                }else{
-                    displayMessage('Missed!');
-                }
+                const result =otherPlayer.board.receiveAttack([x,y]);
+                displayMessage(`${result.status}!`);
             } catch (error) {
                 displayMessage(error);
                 isProcessing = false;
@@ -129,10 +136,29 @@ function launchGameScreen(){
                 alert('Shall we play again?');
                 newGame();
             }
+
+
+
             setTimeout(() =>{
+
                 switchPlayers();
-                displayMessage(`${currentPlayer.name} it is now your turn!`);
-                displayBoards();
+                
+                if(gameMode === "1"){
+                    displayMessage("Computer is now attacking...");
+                    setTimeout(1000);
+                    const move = playerTwo.getMove();
+                    const result = playerOne.board.receiveAttack(move);
+                    playerTwo.updateResult(move, result.status);
+                    switchPlayers();
+                    displayBoards();
+                    setTimeout(1000);
+                    displayMessage(`${playerOne.name} it is now your turn!`);
+                }
+                if(gameMode === '2'){
+                    
+                    displayMessage(`${currentPlayer.name} it is now your turn!`);
+                    displayBoards();
+                }
                 isProcessing = false;
             }, 1000);
             

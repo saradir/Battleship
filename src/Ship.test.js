@@ -29,7 +29,7 @@ describe('testing set()', () => {
   });
   
   test('legal position', () =>{
-    console.log(board.board);
+    
     expect(() => 
       board.set(ship, [0,0])).not.toThrow();
 
@@ -104,9 +104,9 @@ describe('test testPlayer', () =>{
 
   test('computer player can follow up on a hit', ()=>{
     testPlayer.updateResult([5,5], 'hit');
-    const possibleMoves = ([5,4],[5,6],[6,5],[4,5]);
+    const possibleMoves = [[5,4],[5,6],[6,5],[4,5]];
     const move = testPlayer.getMove();
-    expect(possibleMoves).toContain(move);
+    expect(possibleMoves).toContainEqual(move);
   });
 
   test('computer player avoids out-of-bounds moves', () => {
@@ -121,7 +121,7 @@ describe('test testPlayer', () =>{
     testPlayer.updateResult([6,5], 'hit');
     const move = testPlayer.getMove();
     const horizontalMoves = [[4,5],[7,5]];
-    expect(horizontalMoves.toContain(move));
+    expect(horizontalMoves).toContainEqual(move);
   })
 
 
